@@ -60,7 +60,7 @@ export const builtInFilters: readonly FilterDefinition[] = [
     },
   },
 
-  // The two below are not required by the brief. They are here to show that
+  // The two below are not required. They are here to show that
   // the extension points work: one more node-scoped filter, and one that no
   // node predicate could express — proof the `RouteFilter` contract is the
   // real boundary and the combinators are only a shortcut.
