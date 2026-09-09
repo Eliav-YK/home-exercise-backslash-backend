@@ -18,12 +18,18 @@ export interface ApiDependencies {
   readonly registry: FilterRegistry;
 }
 
+/** Express gives a repeated query parameter as an array and a single one as a string. */
+const toArray = (value: string | string[] | undefined): string[] => {
+  if (value === undefined) return [];
+  return Array.isArray(value) ? value : [value];
+};
+
 /** Accepts `?filters=a,b` and `?filters=a&filters=b` alike. */
 const filtersSchema = z
   .union([z.string(), z.array(z.string())])
   .optional()
   .transform((value) =>
-    (value === undefined ? [] : Array.isArray(value) ? value : [value])
+    toArray(value)
       .flatMap((entry) => entry.split(','))
       .map((entry) => entry.trim())
       .filter((entry) => entry !== ''),

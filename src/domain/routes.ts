@@ -33,10 +33,7 @@ export interface EnumerationResult {
  * few hundred routes, but `maxDepth` and `maxRoutes` keep a hostile or evolved
  * graph from taking the process down; hitting either sets `truncated`.
  */
-export function enumerateRoutes(
-  graph: ServiceGraph,
-  options: EnumerateOptions,
-): EnumerationResult {
+export function enumerateRoutes(graph: ServiceGraph, options: EnumerateOptions): EnumerationResult {
   const routes: Route[] = [];
   const path: string[] = [];
   const visited = new Set<string>();

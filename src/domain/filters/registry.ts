@@ -80,7 +80,9 @@ export class FilterRegistry {
 
     const definition = this.get(name);
     if (definition === undefined) {
-      const known = this.list().map((d) => d.name).join(', ');
+      const known = this.list()
+        .map((d) => d.name)
+        .join(', ');
       throw new FilterParseError(`Unknown filter "${name}". Available filters: ${known}.`);
     }
 

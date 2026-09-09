@@ -14,9 +14,7 @@ export const SINK_KINDS: ReadonlySet<string> = new Set(['rds', 'sqs']);
 const asSeverity = (value: string | undefined): Severity | undefined => {
   if (value === undefined) return undefined;
   if (!(SEVERITIES as readonly string[]).includes(value)) {
-    throw new FilterParseError(
-      `Invalid severity "${value}". Allowed: ${SEVERITIES.join(', ')}.`,
-    );
+    throw new FilterParseError(`Invalid severity "${value}". Allowed: ${SEVERITIES.join(', ')}.`);
   }
   return value as Severity;
 };
@@ -53,9 +51,7 @@ export const builtInFilters: readonly FilterDefinition[] = [
   {
     name: 'hasVulnerability',
     description: 'Routes where at least one node carries a vulnerability.',
-    params: [
-      { name: 'severity', description: `Optional. One of: ${SEVERITIES.join(', ')}.` },
-    ],
+    params: [{ name: 'severity', description: `Optional. One of: ${SEVERITIES.join(', ')}.` }],
     build: ([rawSeverity]) => {
       const severity = asSeverity(rawSeverity);
       return anyNode((node) =>

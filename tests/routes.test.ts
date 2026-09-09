@@ -14,7 +14,9 @@ const build = (edges: Record<string, string[]>, extraNodes: string[] = []): Serv
 };
 
 const pathsOf = (graph: ServiceGraph, opts = options): string[] =>
-  enumerateRoutes(graph, opts).routes.map((route) => route.nodes.join('>')).sort();
+  enumerateRoutes(graph, opts)
+    .routes.map((route) => route.nodes.join('>'))
+    .sort();
 
 describe('enumerateRoutes', () => {
   it('walks from every entry point to every terminal', () => {

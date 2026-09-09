@@ -41,7 +41,9 @@ describe('GET /api/graph', () => {
     const { body } = await request(app).get('/api/graph');
 
     expect(body.warnings).toHaveLength(2);
-    expect(body.warnings.every((w: { code: string }) => w.code === 'DANGLING_EDGE_TARGET')).toBe(true);
+    expect(body.warnings.every((w: { code: string }) => w.code === 'DANGLING_EDGE_TARGET')).toBe(
+      true,
+    );
     expect(body.warnings[0].message).toContain('assurance-service');
   });
 });

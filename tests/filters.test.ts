@@ -20,13 +20,19 @@ import type { Route } from '../src/domain/types.js';
 const graph = parseGraph({
   nodes: [
     { name: 'frontend', kind: 'service', publicExposed: true },
-    { name: 'order-service', kind: 'service', publicExposed: false,
-      vulnerabilities: [{ file: 'x.java', severity: 'high', message: 'sqli' }] },
+    {
+      name: 'order-service',
+      kind: 'service',
+      publicExposed: false,
+      vulnerabilities: [{ file: 'x.java', severity: 'high', message: 'sqli' }],
+    },
     { name: 'config-service', kind: 'service', publicExposed: false },
     { name: 'prod-postgresdb', kind: 'rds' },
   ],
-  edges: [{ from: 'frontend', to: ['order-service', 'config-service'] },
-          { from: 'order-service', to: ['prod-postgresdb'] }],
+  edges: [
+    { from: 'frontend', to: ['order-service', 'config-service'] },
+    { from: 'order-service', to: ['prod-postgresdb'] },
+  ],
 });
 
 const route = (...nodes: string[]): Route => ({ nodes });

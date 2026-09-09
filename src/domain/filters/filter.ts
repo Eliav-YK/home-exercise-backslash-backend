@@ -33,11 +33,7 @@ export class FilterParseError extends Error {
  * extensions. Each is one line to add back the day a filter needs it.
  */
 
-const nodeAt = (
-  route: Route,
-  graph: ServiceGraph,
-  index: number,
-): GraphNode | undefined => {
+const nodeAt = (route: Route, graph: ServiceGraph, index: number): GraphNode | undefined => {
   const name = route.nodes.at(index);
   return name === undefined ? undefined : graph.getNode(name);
 };
