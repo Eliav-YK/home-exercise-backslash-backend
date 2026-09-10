@@ -2,15 +2,6 @@ import type { RouteQueryResult } from '../domain/routes.js';
 import type { ServiceGraph } from '../domain/graph.js';
 import type { GraphEdge, GraphNode, LoadWarning } from '../domain/types.js';
 
-/**
- * Shapes domain values into the response bodies.
- *
- * The brief asks for "a graph structure that can be easy to render in a client
- * side application", so every response leads with flat `nodes` + `edges` —
- * exactly what a rendering library consumes. `routes` rides alongside so a
- * client can highlight individual paths without recomputing them.
- */
-
 export interface GraphPayload {
   readonly nodes: readonly GraphNode[];
   readonly edges: readonly GraphEdge[];
@@ -33,12 +24,6 @@ export function toGraphPayload(
   return { nodes: graph.nodes, edges: graph.edges, warnings: graph.warnings };
 }
 
-/**
- * Reduce the matched routes to the sub-graph they induce.
- *
- * Nodes and edges are de-duplicated across routes: a client wants each service
- * drawn once, however many paths run through it.
- */
 export function toRoutesPayload(
   graph: ServiceGraph,
   result: RouteQueryResult,
@@ -62,7 +47,6 @@ export function toRoutesPayload(
   }
 
   return {
-    // Filtered from graph.nodes rather than rebuilt, to preserve source order.
     nodes: graph.nodes.filter((node) => nodeNames.has(node.name)),
     edges,
     routes: result.routes.map((route) => ({

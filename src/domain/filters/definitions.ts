@@ -2,13 +2,7 @@ import { SEVERITIES, type Severity } from '../types.js';
 import { anyNode, endNode, FilterParseError, startNode } from './filter.js';
 import type { FilterDefinition } from './registry.js';
 
-/**
- * Node kinds that count as a data sink.
- *
- * The brief says "rds/sql"; the dataset contains kinds `rds` and `sqs` and no
- * `sql`, so this reads it as the message queue. Kept as a named set rather
- * than inlined so the reading is visible and cheap to correct.
- */
+
 export const SINK_KINDS: ReadonlySet<string> = new Set(['rds', 'sqs']);
 
 const asSeverity = (value: string | undefined): Severity | undefined => {
@@ -26,15 +20,6 @@ const required = (value: string | undefined, filter: string, param: string): str
   return value;
 };
 
-/**
- * The built-in filters.
- *
- * ────────────────────────────────────────────────────────────────────────
- *  TO ADD A FILTER: append one entry to this array. Nothing else changes —
- *  not the route handler, not the service, not the enumerator. It is picked
- *  up by `GET /api/routes` and documented by `GET /api/filters` on restart.
- * ────────────────────────────────────────────────────────────────────────
- */
 export const builtInFilters: readonly FilterDefinition[] = [
   {
     name: 'startsPublic',
@@ -60,9 +45,9 @@ export const builtInFilters: readonly FilterDefinition[] = [
     },
   },
 
-  // The two below are not required. They are here to show that
+  // the two below are not required. They are here to show that
   // the extension points work: one more node-scoped filter, and one that no
-  // node predicate could express — proof the `RouteFilter` contract is the
+  // node predicate could express - proof the `RouteFilter` contract is the
   // real boundary and the combinators are only a shortcut.
 
   {

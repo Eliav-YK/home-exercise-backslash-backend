@@ -18,13 +18,11 @@ export interface ApiDependencies {
   readonly registry: FilterRegistry;
 }
 
-/** Express gives a repeated query parameter as an array and a single one as a string. */
 const toArray = (value: string | string[] | undefined): string[] => {
   if (value === undefined) return [];
   return Array.isArray(value) ? value : [value];
 };
 
-/** Accepts `?filters=a,b` and `?filters=a&filters=b` alike. */
 const filtersSchema = z
   .union([z.string(), z.array(z.string())])
   .optional()
@@ -42,8 +40,6 @@ const routesQuerySchema = z.object({
 
 function createApiRouter({ graph, engine, registry }: ApiDependencies): Router {
   const router = Router();
-
-  /** Endpoint index, so the API is explorable without reading the README. */
   router.get('/', (_req, res) => {
     res.json({
       endpoints: {
@@ -58,7 +54,6 @@ function createApiRouter({ graph, engine, registry }: ApiDependencies): Router {
     res.json(toGraphPayload(graph));
   });
 
-  /** Generated from the registry, so a new filter documents itself. */
   router.get('/filters', (_req, res) => {
     res.json({
       matchModes: ['all', 'any'],
@@ -83,7 +78,6 @@ function createApiRouter({ graph, engine, registry }: ApiDependencies): Router {
       const result = engine.query({ filters, match });
       res.json(toRoutesPayload(graph, result, specs, match));
     } catch (error) {
-      // A bad filter name or argument is the caller's mistake, not a fault.
       if (error instanceof FilterParseError) {
         res.status(400).json({ error: error.message });
         return;

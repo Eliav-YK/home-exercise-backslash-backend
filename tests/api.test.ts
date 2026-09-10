@@ -8,11 +8,7 @@ import { FilterRegistry } from '../src/domain/filters/registry.js';
 import { RouteQueryEngine } from '../src/domain/routes.js';
 import type { Express } from 'express';
 
-/**
- * End-to-end against the real train-ticket dataset. The counts below were
- * derived from the data itself and are asserted deliberately: they are the
- * regression net for the loader, the enumerator and the filters at once.
- */
+
 let app: Express;
 
 beforeAll(() => {
@@ -96,12 +92,6 @@ describe('GET /api/routes', () => {
     expect(high.body.meta.matchedRoutes).toBeLessThan(medium.body.meta.matchedRoutes);
   });
 
-  /**
-   * The headline combination is genuinely empty on this dataset: the only
-   * reachable public entry point is `frontend`, whose sub-tree never touches
-   * a datastore. Asserted so the emptiness stays a known property of the data
-   * rather than looking like a bug in the filters.
-   */
   it('combines filters with AND by default, and this pairing has no matches', async () => {
     const { body } = await routes('?filters=startsPublic,endsInSink');
 
@@ -129,8 +119,6 @@ describe('GET /api/routes', () => {
     expect(body.error).toMatch(/Unknown filter "doesNotExist"/);
   });
 
-  // Argument validation moved into each filter's own build; this proves it
-  // still reaches the caller as a 400 rather than a 500.
   it('rejects an invalid filter argument with 400', async () => {
     const { status, body } = await routes('?filters=hasVulnerability:catastrophic');
 

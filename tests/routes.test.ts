@@ -47,12 +47,6 @@ describe('enumerateRoutes', () => {
     expect(routes.map((r) => r.nodes)).toEqual([['a', 'b', 'c']]);
   });
 
-  /**
-   * A documented consequence of defining a route as starting at an entry
-   * point: a component that loops with nothing pointing into it has no entry
-   * point, so it yields nothing. The supplied dataset is acyclic and fully
-   * reachable, so this costs it no routes.
-   */
   it('yields nothing for a component with no entry point', () => {
     const graph = build({ a: ['b'], b: ['a'] });
     expect(enumerateRoutes(graph, options).routes).toEqual([]);
